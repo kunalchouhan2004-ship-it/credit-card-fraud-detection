@@ -249,10 +249,15 @@ cd credit-card-fraud-detection
 
 pip install pandas numpy scikit-learn xgboost matplotlib seaborn jupyter
 
-## 3. Download the dataset
+### 3. Download the dataset
+Download from Kaggle and place in `data/` folder:
 
-Download from Kaggle and place in data/ folder:
-Kaggle - Credit Card Fraud Detection
+> 🔗 [Kaggle - Credit Card Fraud Detection](https://www.kaggle.com/datasets/kartik2112/fraud-detection)
+
+Files needed:
+- `fraudTrain.csv`
+- `fraudTest.csv`
+- `creditcard_clean.csv`
 
 ## 4. Run EDA notebook
 
