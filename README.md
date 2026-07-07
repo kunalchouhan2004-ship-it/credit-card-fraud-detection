@@ -27,44 +27,45 @@ to an **Interactive Power BI Dashboard**.
 | Source | Kaggle - Credit Card Fraud Dataset |
 
 > ⚠️ Dataset files are too large for GitHub.
-> Download from: [Kaggle Dataset Link](https://www.kaggle.com/)
+> Download from: [Kaggle - Credit Card Fraud Detection](https://www.kaggle.com/datasets/kartik2112/fraud-detection)
 
 ---
 
 ## 🗂️ Project Structure
 
+```
 credit-card-fraud-detection/
 │
 ├── 📁 data/
-│ ├── creditcard_clean.csv ← Cleaned dataset (not uploaded)
-│ ├── fraudTest.csv ← Raw test data (not uploaded)
-│ └── fraudTrain.csv ← Raw train data (not uploaded)
+│   ├── creditcard_clean.csv         ← Cleaned dataset (not uploaded)
+│   ├── fraudTest.csv                ← Raw test data (not uploaded)
+│   └── fraudTrain.csv               ← Raw train data (not uploaded)
 │
 ├── 📁 notebooks/
-│ ├── 01_eda.ipynb ← Phase 1: Exploratory Data Analysis
-│ └── 02_modeling.ipynb ← Phase 2: Machine Learning Model
+│   ├── 01_eda.ipynb                 ← Phase 1: Exploratory Data Analysis
+│   └── 02_modeling.ipynb            ← Phase 2: Machine Learning Model
 │
 ├── 📁 models/
-│ ├── model.pkl ← Trained XGBoost model
-│ ├── features.pkl ← Selected features
-│ ├── scaler.pkl ← Data scaler
-│ ├── threshold.pkl ← Optimal threshold (0.35)
-│ └── model_config.txt ← Model configuration
+│   ├── model.pkl                    ← Trained XGBoost model
+│   ├── features.pkl                 ← Selected features
+│   ├── scaler.pkl                   ← Data scaler
+│   ├── threshold.pkl                ← Optimal threshold (0.35)
+│   └── model_config.txt             ← Model configuration
 │
 ├── 📁 images/
-│ ├── 📁 eda_plots/ ← Phase 1 EDA visualizations
-│ ├── 📁 model_plots/ ← Phase 2 Model visualizations
-│ └── 📁 dashboard_screenshots/ ← Phase 3 Dashboard screenshots
+│   ├── 📁 eda_plots/                ← Phase 1 EDA visualizations
+│   ├── 📁 model_plots/              ← Phase 2 Model visualizations
+│   └── 📁 dashboard_screenshots/    ← Phase 3 Dashboard screenshots
 │
 ├── 📁 dashboard/
-│ └── Credit_Fraud_Detection.pbix ← Power BI file (not uploaded)
+│   └── Credit_Fraud_Detection.pbix  ← Power BI file (not uploaded)
 │
 ├── 📁 reports/
-│ └── data_quality_report.txt ← Data quality report
+│   └── data_quality_report.txt      ← Data quality report
 │
 ├── .gitignore
 └── README.md
-
+```
 
 ---
 
@@ -114,8 +115,8 @@ credit-card-fraud-detection/
 ### Models Tested:
 | Model | AUC | F1 Score | Selected |
 |-------|-----|----------|----------|
-| Logistic Regression | - | - | ❌ |
-| Random Forest | - | - | ❌ |
+| Logistic Regression | 0.9060 | 24.68% | ❌ |
+| Random Forest | 0.9928 | 57.31% | ❌ |
 | XGBoost | 0.9955 | 83.53% | ✅ |
 
 ### Final Model Results (XGBoost):
@@ -216,16 +217,18 @@ credit-card-fraud-detection/
 ---
 
 ## 📌 Key Insights
-→ Peak fraud hour : 10 PM (22:00)
-→ Top fraud category : shopping_net (1.59%)
-→ Most targeted : Elderly customers (60+)
-→ Strongest signal : Transaction amount (r=0.2093)
-→ Best model : XGBoost (AUC=0.9955)
-→ Fraud caught : 81.34% of all frauds
+
+- **Peak fraud hour:** 10 PM (22:00)
+- **Top fraud category:** shopping_net (1.59%)
+- **Most targeted:** Elderly customers (60+)
+- **Strongest signal:** Transaction amount (r=0.2093)
+- **Best model:** XGBoost (AUC = 0.9955)
+- **Fraud caught:** 81.34% of all frauds
 
 ---
 
 ## ✅ Recommendations
+
 1. Flag transactions above threshold 0.35 for review
 2. Increase monitoring during 10 PM - 12 AM
 3. Extra verification for elderly customers (60+)
@@ -239,7 +242,7 @@ credit-card-fraud-detection/
 
 ## 1. Clone the repository
 
-git clone https://github.com/yourusername/credit-card-fraud-detection.git
+git clone https://github.com/kunalchouhan2004-ship-it/credit-card-fraud-detection.git
 cd credit-card-fraud-detection
 
 ## 2. Install dependencies
@@ -249,10 +252,7 @@ pip install pandas numpy scikit-learn xgboost matplotlib seaborn jupyter
 ## 3. Download the dataset
 
 Download from Kaggle and place in data/ folder:
-
-creditcard_clean.csv
-fraudTrain.csv
-fraudTest.csv
+Kaggle - Credit Card Fraud Detection
 
 ## 4. Run EDA notebook
 
@@ -264,5 +264,10 @@ jupyter notebook notebooks/02_modeling.ipynb
 
 ## 6. Open Power BI Dashboard
 
-Download Credit_Fraud_Detection.pbix
-Open with Power BI Desktop
+- Download Credit_Fraud_Detection.pbix
+- Open with Power BI Desktop
+
+## 👤 Author
+Kunal Chouhan
+
+GitHub: kunalchouhan2004-ship-it
