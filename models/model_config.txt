@@ -1,0 +1,77 @@
+
+CREDIT CARD FRAUD DETECTION - MODEL CONFIG
+===========================================
+
+FINAL MODEL
+-----------
+Model Type       : XGBoost
+n_estimators     : 300
+max_depth        : 8
+learning_rate    : 0.2
+scale_pos_weight : 1
+random_state     : 42
+eval_metric      : aucpr
+
+OPTIMAL THRESHOLD
+-----------------
+Threshold        : 0.35
+Reason           : Both Precision & Recall above 80%
+
+PERFORMANCE METRICS
+-------------------
+Precision        : 85.85%
+Recall           : 81.34%
+F1 Score         : 83.53%
+AUC              : 0.9955
+
+CONFUSION MATRIX
+----------------
+Fraud Caught     : 3,604
+Fraud Missed     :   827
+False Alarms     :   594
+Legit Correct    : 922,519
+
+IMPROVEMENT JOURNEY
+-------------------
+Step 1 - Baseline XGBoost (spw=176):
+  Precision : 9.03%
+  Recall    : 98.08%
+  F1        : 16.53%
+
+Step 2 - Tuned spw=1:
+  Precision : 56.01%
+  Recall    : 88.94%
+  F1        : 68.74%
+
+Step 3 - Hyperparameter Tuning:
+  Precision : 89.80%
+  Recall    : 79.67%
+  F1        : 84.43%
+
+Step 4 - Threshold=0.35 (FINAL):
+  Precision : 85.85%
+  Recall    : 81.34%
+  F1        : 83.53%
+
+TRAINING INFO
+-------------
+Train Data       : 2019
+Test  Data       : 2020
+Total Features   : 30
+SMOTE Applied    : Yes (1:1 ratio)
+
+TARGET METRICS MET
+------------------
+Recall    >= 80%  : YES 81.34%
+Precision >= 80%  : YES 85.85%
+AUC       >= 0.90 : YES 0.9955
+
+FILES SAVED
+-----------
+model.pkl        : Trained XGBoost model
+scaler.pkl       : Fitted StandardScaler
+features.pkl     : 30 feature names
+threshold.pkl    : Optimal threshold 0.35
+model_config.txt : This configuration file
+
+Ready for Phase 3 : Dashboard Development

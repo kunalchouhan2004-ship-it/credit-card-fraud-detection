@@ -1,0 +1,26 @@
+# Large data files
+data/creditcard_clean.csv
+data/fraudTest.csv
+data/fraudTrain.csv
+
+# Large dashboard file
+dashboard/Credit_Fraud_Detection.pbix
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Anaconda projects
+anaconda_projects/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+*.env

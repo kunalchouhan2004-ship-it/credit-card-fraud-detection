@@ -1,0 +1,223 @@
+
+================================================================
+DATA QUALITY REPORT
+Project  : Credit Card Fraud Detection
+Phase    : 1 - Data Cleaning & EDA
+Dataset  : Sparkov Credit Card Transactions
+Author   : [Your Name]
+Date     : 2024
+================================================================
+
+DATASET OVERVIEW
+----------------------------------------------------------------
+Source          : Kaggle - kartik2112
+Files           : fraudTrain.csv + fraudTest.csv
+Total Rows      : 1,852,394
+Total Columns   : 23 (original) → 26 (after feature engineering)
+Target Variable : is_fraud (0=legitimate, 1=fraud)
+Fraud Rate      : 0.52%
+Dataset Type    : Synthetic (Sparkov Data Generation)
+
+================================================================
+ISSUES FOUND & DECISIONS MADE
+================================================================
+
+ISSUE 1 → Unnamed: 0 Column
+----------------------------------------------------------------
+Problem  : Redundant row index column
+Action   : DROPPED
+Rationale: pandas already has its own index
+           This column adds zero information
+           to analysis or modeling
+
+ISSUE 2 → trans_date_trans_time Column
+----------------------------------------------------------------
+Problem  : Stored as object/string instead of datetime
+Action   : CONVERTED to datetime64[ns]
+           EXTRACTED 5 new features:
+           → trans_hour    (0-23)
+           → trans_day     (1-31)
+           → trans_month   (1-12)
+           → trans_year    (2019/2020)
+           → trans_weekday (Monday-Sunday)
+Rationale: Time based features are critical
+           for fraud pattern detection
+
+ISSUE 3 → dob Column
+----------------------------------------------------------------
+Problem  : Date of birth stored as string
+Action   : CONVERTED to datetime
+           CALCULATED age from dob
+Rationale: Raw dob is not useful
+           Age is a meaningful numeric feature
+           for demographic fraud analysis
+
+ISSUE 4 → merchant Column
+----------------------------------------------------------------
+Problem  : All merchant names had fraud_ prefix
+           Example: fraud_Rippin, Kub and Mann
+Action   : REMOVED fraud_ prefix using str.replace()
+Rationale: The prefix is a data generation artifact
+           not a real merchant name characteristic
+
+ISSUE 5 → zip Column
+----------------------------------------------------------------
+Problem  : Stored as int64 instead of string
+Action   : CONVERTED to string using astype(str)
+Rationale: Zip codes are identifiers not numbers
+           Mathematical operations on zip codes
+           are meaningless
+
+ISSUE 6 → amt Column (Outliers)
+----------------------------------------------------------------
+Problem  : Extreme values up to $28,948.90
+Action   : KEPT outliers intentionally
+           FLAGGED with is_high_amount column
+           (1 if amt > $1000 else 0)
+Rationale: High amounts are fraud signals
+           Removing them would lose valuable
+           fraud detection information
+           Fraud rate above $1000 is 22.20%
+
+ISSUE 7 → PII Columns
+----------------------------------------------------------------
+Problem  : cc_num, first, last, street contain
+           sensitive personal information
+Action   : DROPPED all 4 columns
+Rationale: Privacy protection
+           These features cannot generalize
+           in fraud detection modeling
+
+ISSUE 8 → Duplicate Transactions
+----------------------------------------------------------------
+Problem  : Possible duplicate trans_num values
+Action   : CHECKED for duplicates
+Result   : 0 duplicates found
+           No action needed
+
+ISSUE 9 → Delaware State Anomaly
+----------------------------------------------------------------
+Problem  : Delaware showed 100% fraud rate
+Action   : INVESTIGATED → found only 9 transactions
+           FILTERED states with minimum 100
+           transactions for rate analysis
+Rationale: Small sample sizes produce
+           misleading fraud rates
+           Statistical reliability requires
+           minimum sample size
+
+ISSUE 10 → Missing Values
+----------------------------------------------------------------
+Problem  : Checked all columns for missing values
+Action   : No missing values found
+Rationale: Dataset is synthetically generated
+           All fields were programmatically filled
+
+================================================================
+NEW FEATURES CREATED
+================================================================
+
+FEATURE 1 → trans_hour
+Source    : trans_date_trans_time
+Type      : Integer (0-23)
+Purpose   : Time based fraud pattern detection
+
+FEATURE 2 → trans_day
+Source    : trans_date_trans_time
+Type      : Integer (1-31)
+Purpose   : Day based fraud pattern analysis
+
+FEATURE 3 → trans_month
+Source    : trans_date_trans_time
+Type      : Integer (1-12)
+Purpose   : Seasonal fraud pattern detection
+
+FEATURE 4 → trans_year
+Source    : trans_date_trans_time
+Type      : Integer (2019/2020)
+Purpose   : Year based trend analysis
+
+FEATURE 5 → trans_weekday
+Source    : trans_date_trans_time
+Type      : String (Monday-Sunday)
+Purpose   : Day of week fraud pattern analysis
+
+FEATURE 6 → age
+Source    : dob
+Type      : Integer
+Purpose   : Demographic fraud analysis
+            Older cardholders more targeted
+
+FEATURE 7 → distance_km
+Source    : lat, long, merch_lat, merch_long
+Type      : Float
+Purpose   : Geographic fraud signal
+            Note: Found to be weak signal (d=0.005)
+
+FEATURE 8 → is_high_amount
+Source    : amt
+Type      : Binary (0/1)
+Purpose   : Flag transactions above $1000
+            22.20% fraud rate for flagged transactions
+
+================================================================
+FINAL DATASET STATISTICS
+================================================================
+
+Total Rows              : 1,852,394
+Total Columns           : 26
+Legitimate Transactions : 1,842,743 (99.48%)
+Fraud Transactions      :     9,651  (0.52%)
+Missing Values          : 0
+Duplicate Transactions  : 0
+Amount Range            : $1.00 to $28,948.90
+Age Range               : 21 to 101 years
+Date Range              : Jan 2019 to Dec 2020
+States Covered          : 51
+Unique Categories       : 14
+Unique Merchants        : 693
+
+================================================================
+OUTPUT FILES
+================================================================
+
+creditcard_clean.csv     → Cleaned dataset ready for Phase 2
+plots/A1_*.png           → Class distribution plot
+plots/A2_*.png           → Fraud pie chart
+plots/A3_*.png           → Fraud rate by category
+plots/A4_*.png           → Transaction volume by category
+plots/B1_*.png           → Amount distribution
+plots/B2_*.png           → Amount boxplot
+plots/B3_*.png           → Fraud rate by amount range
+plots/C1_*.png           → Transaction volume over time
+plots/C2_*.png           → Fraud rate by hour
+plots/C3_*.png           → Fraud rate by day
+plots/C4_*.png           → Fraud rate by month
+plots/C5_*.png           → Fraud heatmap hour vs day
+plots/D1_*.png           → Top states by fraud count
+plots/D2_*.png           → Fraud rate by state
+plots/D3_*.png           → Distance analysis
+plots/E1_*.png           → Fraud rate by gender
+plots/E2_*.png           → Age distribution
+plots/E3_*.png           → Fraud rate by age group
+plots/E4_*.png           → Fraud rate by occupation
+plots/F1_*.png           → Top merchants by fraud count
+plots/G2_*.png           → Feature correlation with fraud
+
+================================================================
+RECOMMENDATIONS FOR PHASE 2
+================================================================
+
+1. Engineer amt_bin feature (amount ranges)
+2. Engineer age_group feature (age brackets)
+3. Encode category using target encoding
+4. Create hour_bin feature (morning/afternoon/night)
+5. Create weekend flag feature
+6. Consider dropping distance_km (weak signal)
+7. Apply SMOTE or class weights in Phase 3
+8. Focus on amt, trans_hour, age, category
+   as primary features for modeling
+
+================================================================
+END OF REPORT
+================================================================
